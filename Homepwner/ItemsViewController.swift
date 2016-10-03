@@ -45,22 +45,42 @@ class ItemsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemStore.allItems.count
+        return itemStore.allItems.count + 1 // Silver Challenge
     }
     
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        
+//        // Get a new or recycled cell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+//        
+//        // Set the text on the cell with the description of the item
+//        // that is at the nth index of items, where n = row this cell
+//        // will appear in on the tableview
+//        let item = itemStore.allItems[indexPath.row]
+//        
+//        cell.textLabel?.text = item.name
+//        cell.detailTextLabel?.text = "$\(item.valueInDollars)"
+//        
+//        return cell
+//    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // Get a new or recycled cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
         
-        // Set the text on the cell with the description of the item
-        // that is at the nth index of items, where n = row this cell
-        // will appear in on the tableview
-        let item = itemStore.allItems[indexPath.row]
-        
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = "$\(item.valueInDollars)"
-        
+        //​ ​S​e​t​ ​t​h​e​ ​t​e​x​t​ ​o​n​ ​t​h​e​ ​c​e​l​l​ ​w​i​t​h​ ​t​h​e​ ​d​e​s​c​r​i​p​t​i​o​n​ ​o​f​ ​t​h​e​ ​i​t​e​m
+        // t​h​a​t​ ​i​s​ ​a​t​ ​t​h​e​ ​n​t​h​ ​i​n​d​e​x​ ​o​f​ ​i​t​e​m​s​,​ ​w​h​e​r​e​ ​n​ ​=​ ​r​o​w​ ​t​h​i​s​ ​c​e​l​l
+        // ​w​i​l​l​ ​a​p​p​e​a​r​ ​i​n​ ​o​n​ ​t​h​e​ ​t​a​b​l​e​v​i​e​w
+        // Silver challenge
+        if indexPath.row == itemStore.allItems.count {
+            cell.textLabel?.text = "No more items!"
+            cell.detailTextLabel?.text = nil
+        }
+        else {
+            let item = itemStore.allItems[indexPath.row]
+            cell.textLabel?.text = item.name
+            cell.detailTextLabel?.text = "$\(item.valueInDollars)"
+        }
         return cell
     }
     
@@ -80,11 +100,39 @@ class ItemsViewController: UITableViewController {
         
         // If the table view is asking to commit a delete command...
         if editingStyle == .delete {
-            let item = itemStore.allItems[indexPath.row]
-            itemStore.removeItem(item: item)
             
-            // Also remove that row from the table view with an animation
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if indexPath.row == self.itemStore.allItems.count {
+                let ac = UIAlertController(title: "Oops", message: "This row cannot be deleted", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                ac.addAction(doneAction)
+                present(ac, animated: true, completion: nil)
+            }
+            else {
+                
+                let item = itemStore.allItems[indexPath.row]
+                
+                let title = "Delete \(item.name)?"
+                let message = "Are you sure you want to delete this item?"
+                
+                let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                ac.addAction(cancelAction)
+                
+                let deleteAction = UIAlertAction(title: "Remove", style: .destructive, handler: { (action) -> Void in
+                    
+                    // Remove the item from the store
+                    self.itemStore.removeItem(item: item)
+                    
+                    // Also remove that row from the table view with an animation
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                })
+                ac.addAction(deleteAction)
+                
+                // Present the alert controller
+                present(ac, animated: true, completion: nil)
+                
+            }
         }
     }
     
