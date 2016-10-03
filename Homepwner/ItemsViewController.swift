@@ -87,7 +87,9 @@ class ItemsViewController: UITableViewController {
             
             if indexPath.row == self.itemStore.allItems.count {
                 let ac = UIAlertController(title: "Oops", message: "This row cannot be deleted", preferredStyle: .alert)
-                let doneAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                let doneAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
+                    self.isEditing = false
+                })
                 ac.addAction(doneAction)
                 present(ac, animated: true, completion: nil)
             }
