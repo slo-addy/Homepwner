@@ -127,6 +127,15 @@ class ItemsViewController: UITableViewController {
         // Update the model
         itemStore.moveItemAtIndex(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
+    
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        if sourceIndexPath.row == itemStore.allItems.count || proposedDestinationIndexPath.row >= itemStore.allItems.count {
+            return sourceIndexPath
+        }
+        else {
+            return proposedDestinationIndexPath
+        }
+    }
 }
 
 
