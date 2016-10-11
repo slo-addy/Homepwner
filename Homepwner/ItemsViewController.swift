@@ -12,6 +12,7 @@ class ItemsViewController: UITableViewController {
     
     var itemStore: ItemStore!
     
+    @IBOutlet weak var editButton: UIButton!
     @IBAction func addNewItem(sender: AnyObject) {
         
         // Create a new item and add it the the store
@@ -23,24 +24,41 @@ class ItemsViewController: UITableViewController {
             
             // Insert this new row into the table
             tableView.insertRows(at: [indexPath], with: .automatic)
+            updateEditButton()
         }
     }
     
+    //TODO: Disable Edit button if itemStore is empty
+    //TODO: Present Edit button if itemStore != nil
     @IBAction func toggleEditingMode(sender: AnyObject) {
         
-        // If you are currently in editing mode...
-        if isEditing {
-            sender.setTitle("Edit", for: .normal)
-            
-            // Turn off editing mode
-            setEditing(false, animated: true)
+        // If itemStore is not empty and if you are currently in editing mode...
+        if itemStore.allItems.count > 0 {
+            if isEditing == true {
+                // Turn off editing mode
+                setEditing(false, animated: true)
+                updateEditButton()
+            }
+            else {
+                // Enter editing mode
+                setEditing(true, animated: true)
+                updateEditButton()
+            }
+        }
+    }
+    
+    func updateEditButton() {
+        if itemStore.allItems.count < 1 {
+            editButton.setTitle("Edit", for: .disabled)
+            editButton.isEnabled = false
+        }
+        else if isEditing == true {
+            editButton.setTitle("Done", for: .normal)
+            editButton.isEnabled = true
         }
         else {
-            // Change text of button to inform user of state
-            sender.setTitle("Done", for: .normal)
-            
-            // Enter editing mode
-            setEditing(true, animated: true)
+            editButton.setTitle("Edit", for: .normal)
+            editButton.isEnabled = true
         }
     }
     
@@ -72,6 +90,8 @@ class ItemsViewController: UITableViewController {
         
         super.viewDidLoad()
         
+        updateEditButton()
+        
         // Get the height of the status bar
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         
@@ -80,21 +100,20 @@ class ItemsViewController: UITableViewController {
         tableView.scrollIndicatorInsets = insets
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == self.itemStore.allItems.count {
+            return false
+        }
+        else {
+            return true
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         // If the table view is asking to commit a delete command...
         if editingStyle == .delete {
             
-            if indexPath.row == self.itemStore.allItems.count {
-                let ac = UIAlertController(title: "Oops", message: "This row cannot be deleted", preferredStyle: .alert)
-                let doneAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-                    self.isEditing = false
-                })
-                ac.addAction(doneAction)
-                present(ac, animated: true, completion: nil)
-            }
-            else {
-                
                 let item = itemStore.allItems[indexPath.row]
                 
                 let title = "Delete \(item.name)?"
@@ -112,13 +131,12 @@ class ItemsViewController: UITableViewController {
                     
                     // Also remove that row from the table view with an animation
                     self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    self.updateEditButton()
                 })
                 ac.addAction(deleteAction)
                 
                 // Present the alert controller
                 present(ac, animated: true, completion: nil)
-                
-            }
         }
     }
     
