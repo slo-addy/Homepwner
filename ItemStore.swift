@@ -27,7 +27,6 @@ class ItemStore {
     }
     
     func moveItemAtIndex(fromIndex: Int, toIndex: Int) {
-        
         if fromIndex == toIndex {
             return
         }

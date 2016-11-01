@@ -14,6 +14,7 @@
 		4E8375491D988B3A002674DE /* ItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8375481D988B3A002674DE /* ItemsViewController.swift */; };
 		4E83754B1D988D26002674DE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E83754A1D988D26002674DE /* Item.swift */; };
 		4E83754D1D989196002674DE /* ItemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E83754C1D989196002674DE /* ItemStore.swift */; };
+		E57AA5981DADB8210013F19A /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57AA5971DADB8210013F19A /* ItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		4E8375481D988B3A002674DE /* ItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsViewController.swift; sourceTree = "<group>"; };
 		4E83754A1D988D26002674DE /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = ../Item.swift; sourceTree = "<group>"; };
 		4E83754C1D989196002674DE /* ItemStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemStore.swift; path = ../ItemStore.swift; sourceTree = "<group>"; };
+		E57AA5971DADB8210013F19A /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				4E8375361D988A69002674DE /* AppDelegate.swift */,
 				4E83754A1D988D26002674DE /* Item.swift */,
+				E57AA5971DADB8210013F19A /* ItemCell.swift */,
 				4E83754C1D989196002674DE /* ItemStore.swift */,
 				4E8375481D988B3A002674DE /* ItemsViewController.swift */,
 				4E83753A1D988A69002674DE /* Main.storyboard */,
@@ -147,6 +150,7 @@
 				4E83754B1D988D26002674DE /* Item.swift in Sources */,
 				4E83754D1D989196002674DE /* ItemStore.swift in Sources */,
 				4E8375371D988A69002674DE /* AppDelegate.swift in Sources */,
+				E57AA5981DADB8210013F19A /* ItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +312,7 @@
 				4E8375471D988A69002674DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
