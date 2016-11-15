@@ -175,6 +175,16 @@ class ItemsViewController: UITableViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowItem" {
+            if let row = tableView.indexPathForSelectedRow?.row {
+                let item = itemStore.allItems[row]
+                let detailViewController = segue.destination as! DetailViewController
+                detailViewController.item = item
+            }
+        }
+    }
+    
     func updateValueLabelColorForPrice(cell: ItemCell) {
         if let value = cell.valueLabel.text?.replacingOccurrences(of: "$", with: "") {
             
