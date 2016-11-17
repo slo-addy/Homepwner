@@ -18,6 +18,8 @@ class ItemsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        itemStore = ItemStore()
+        
         updateEditButton()
         
         // Get the height of the status bar
