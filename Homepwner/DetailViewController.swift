@@ -9,14 +9,16 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+
+    var item: Item!
     
+// MARK: - Outlets
     @IBOutlet var nameField: UITextField!
     @IBOutlet var serialNumberField: UITextField!
     @IBOutlet var valueField: UITextField!
     @IBOutlet var dateLabel: UILabel!
     
-    var item: Item!
-    
+// MARK: - Formatters
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -31,7 +33,8 @@ class DetailViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
+
+// MARK: - View Lifecyle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

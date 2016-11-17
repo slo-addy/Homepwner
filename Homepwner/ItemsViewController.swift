@@ -11,8 +11,27 @@ import UIKit
 class ItemsViewController: UITableViewController {
     
     var itemStore: ItemStore!
-    
+// MARK: - Outlets
     @IBOutlet weak var editButton: UIButton!
+    
+// MARK: - View Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateEditButton()
+        
+        // Get the height of the status bar
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        
+        let insets = UIEdgeInsets(top: statusBarHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = insets
+        tableView.scrollIndicatorInsets = insets
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 65
+    }
+    
+// MARK: - User Interaction
     @IBAction func addNewItem(sender: AnyObject) {
         
         // Create a new item and add it the the store
@@ -43,21 +62,7 @@ class ItemsViewController: UITableViewController {
         }
     }
     
-    func updateEditButton() {
-        if itemStore.allItems.count < 1 {
-            editButton.setTitle("Edit", for: .disabled)
-            editButton.isEnabled = false
-        }
-        else if isEditing == true {
-            editButton.setTitle("Done", for: .normal)
-            editButton.isEnabled = true
-        }
-        else {
-            editButton.setTitle("Edit", for: .normal)
-            editButton.isEnabled = true
-        }
-    }
-    
+// MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemStore.allItems.count + 1
     }
@@ -89,22 +94,6 @@ class ItemsViewController: UITableViewController {
         updateValueLabelColorForPrice(cell: cell)
         
         return cell
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updateEditButton()
-        
-        // Get the height of the status bar
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        
-        let insets = UIEdgeInsets(top: statusBarHeight, left: 0, bottom: 0, right: 0)
-        tableView.contentInset = insets
-        tableView.scrollIndicatorInsets = insets
-        
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 65
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -160,6 +149,7 @@ class ItemsViewController: UITableViewController {
         itemStore.moveItemAtIndex(fromIndex: sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
     
+// MARK: - Table View Delegates
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == itemStore.allItems.count {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -182,6 +172,22 @@ class ItemsViewController: UITableViewController {
                 let detailViewController = segue.destination as! DetailViewController
                 detailViewController.item = item
             }
+        }
+    }
+    
+// MARK: - Additional Helpers
+    func updateEditButton() {
+        if itemStore.allItems.count < 1 {
+            editButton.setTitle("Edit", for: .disabled)
+            editButton.isEnabled = false
+        }
+        else if isEditing == true {
+            editButton.setTitle("Done", for: .normal)
+            editButton.isEnabled = true
+        }
+        else {
+            editButton.setTitle("Edit", for: .normal)
+            editButton.isEnabled = true
         }
     }
     
